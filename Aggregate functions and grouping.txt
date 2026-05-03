@@ -1,0 +1,43 @@
+CREATE TABLE sales (
+    id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    category VARCHAR(50),
+    quantity INT,
+    price DECIMAL(10,2)
+);
+
+INSERT INTO sales VALUES
+(1, 'Laptop', 'Electronics', 2, 50000),
+(2, 'Mobile', 'Electronics', 5, 20000),
+(3, 'Shirt', 'Clothing', 10, 1500),
+(4, 'Jeans', 'Clothing', 6, 2000),
+(5, 'TV', 'Electronics', 3, 40000),
+(6, 'Jacket', 'Clothing', 4, 3000);
+
+SELECT * FROM sales;
+
+SELECT category, COUNT(*) AS total_products
+FROM sales
+GROUP BY category;
+
+SELECT category, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY category;
+
+SELECT category, AVG(price) AS average_price
+FROM sales
+GROUP BY category;
+
+SELECT category, SUM(quantity * price) AS total_sales
+FROM sales
+GROUP BY category;
+
+SELECT category, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY category
+HAVING SUM(quantity) > 10;
+
+SELECT category, AVG(price) AS average_price
+FROM sales
+GROUP BY category
+HAVING AVG(price) > 20000;

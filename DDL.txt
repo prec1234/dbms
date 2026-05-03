@@ -1,0 +1,33 @@
+CREATE TABLE Department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    age INT CHECK (age >= 18),
+    email VARCHAR(100) UNIQUE,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+);
+
+INSERT INTO Department VALUES (1, 'Computer'), (2, 'Civil');
+
+SELECT * FROM Department;
+
+INSERT INTO Student VALUES 
+(101, 'parth', 20, 'parth@gmail.com', 1),
+(102, 'sarthak', 21, 'sarthak@gmail.com', 2);
+
+SELECT * FROM Student;
+
+ALTER TABLE Student ADD phone VARCHAR(15);
+
+RENAME TABLE Student TO Student_Info;
+
+SELECT * FROM Student_Info;
+
+TRUNCATE TABLE Student_Info;
+
+DROP TABLE Student_Info;
