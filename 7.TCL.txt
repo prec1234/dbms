@@ -1,0 +1,29 @@
+CREATE TABLE accounts (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    balance INT
+);
+
+INSERT INTO accounts VALUES (1,'A',1000),(2,'B',2000);
+
+select * from accounts
+
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 200 WHERE id = 1;
+UPDATE accounts SET balance = balance + 200 WHERE id = 2;
+COMMIT;
+SELECT * FROM accounts;
+
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+SAVEPOINT s1;
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+ROLLBACK TO s1;
+COMMIT;
+SELECT * FROM accounts;
+
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 300 WHERE id = 2;
+UPDATE accounts SET balance = balance + 300 WHERE id = 1;
+ROLLBACK;
+SELECT * FROM accounts;
