@@ -1,0 +1,16 @@
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    salary INT
+);
+
+INSERT INTO employees VALUES (1,'Parth',30000);
+INSERT INTO employees VALUES (2,'Sarthak',40000);
+INSERT INTO employees VALUES (3,'Samarth',35000);
+
+UPDATE employees SET salary = salary + 5000 WHERE emp_id = 1;
+UPDATE employees SET salary = salary * 1.10 WHERE emp_id = 2;
+
+DELETE FROM employees WHERE emp_id = 3;
+
+SELECT * FROM employees;
