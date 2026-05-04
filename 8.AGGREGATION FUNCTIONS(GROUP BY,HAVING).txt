@@ -1,0 +1,31 @@
+CREATE TABLE employees (
+emp_id INT PRIMARY KEY,
+name VARCHAR(50),
+department VARCHAR(50),
+salary INT,
+age INT
+);
+
+INSERT INTO employees VALUES
+(1,'Parth','HR',30000,25),
+(2,'Samarth','IT',50000,30),
+(3,'Sarthak','IT',55000,28),
+(4,'Fazal','HR',32000,26),
+(5,'Vaibhav','Finance',60000,35),
+(6,'Pawan','Finance',65000,32),
+(7,'Siddhant','IT',48000,27),
+(8,'Akshay','HR',35000,29);
+
+SELECT department, COUNT(*) FROM employees GROUP BY department;
+
+SELECT department, AVG(salary) FROM employees GROUP BY department;
+
+SELECT department, SUM(salary) FROM employees GROUP BY department;
+
+SELECT department, MAX(salary) FROM employees GROUP BY department;
+
+SELECT department, MIN(salary) FROM employees GROUP BY department;
+
+SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 40000;
+
+SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;
