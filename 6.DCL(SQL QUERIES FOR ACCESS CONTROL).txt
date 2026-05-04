@@ -1,0 +1,25 @@
+CREATE USER 'parth'@'localhost' IDENTIFIED BY 'pass123';
+
+
+CREATE ROLE 'read_role';
+CREATE ROLE 'write_role';
+
+GRANT SELECT ON parth.* TO 'read_role';
+GRANT INSERT, UPDATE ON parth.* TO 'write_role';
+
+GRANT 'read_role' TO 'parth'@'localhost';
+GRANT 'write_role' TO 'parth'@'localhost';
+
+SET DEFAULT ROLE ALL TO 'parth'@'localhost';
+
+GRANT DELETE ON parth.* TO 'parth'@'localhost';
+
+REVOKE DELETE ON parth.* FROM 'parth'@'localhost';
+
+REVOKE INSERT, UPDATE ON parth.* FROM 'write_role';
+REVOKE 'write_role' FROM 'parth'@'localhost';
+
+SHOW GRANTS FOR 'parth'@'localhost';
+
+DROP ROLE 'write_role';
+DROP USER 'user1'@'localhost';
