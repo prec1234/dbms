@@ -1,0 +1,54 @@
+CREATE TABLE accounts (
+    acc_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    balance DECIMAL(10,2)
+);
+
+CREATE TABLE transactions (
+    trans_id INT AUTO_INCREMENT PRIMARY KEY,
+    acc_id INT,
+    amount DECIMAL(10,2),
+    type VARCHAR(10),
+    trans_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO accounts VALUES (1,'Amit',5000),(2,'Ravi',3000);
+
+DELIMITER $$
+
+CREATE TRIGGER before_withdraw
+BEFORE UPDATE ON accounts
+FOR EACH ROW
+BEGIN
+    IF NEW.balance < 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient Balance';
+    END IF;
+END$$
+
+CREATE TRIGGER after_deposit
+AFTER UPDATE ON accounts
+FOR EACH ROW
+BEGIN
+    IF NEW.balance > OLD.balance THEN
+        INSERT INTO transactions(acc_id, amount, type)
+        VALUES(NEW.acc_id, NEW.balance - OLD.balance, 'DEPOSIT');
+    END IF;
+END$$
+
+CREATE TRIGGER after_withdraw
+AFTER UPDATE ON accounts
+FOR EACH ROW
+BEGIN
+    IF NEW.balance < OLD.balance THEN
+        INSERT INTO transactions(acc_id, amount, type)
+        VALUES(NEW.acc_id, OLD.balance - NEW.balance, 'WITHDRAW');
+    END IF;
+END$$
+
+DELIMITER ;
+
+UPDATE accounts SET balance = balance + 1000 WHERE acc_id = 1;
+UPDATE accounts SET balance = balance - 2000 WHERE acc_id = 2;
+
+SELECT * FROM accounts;
+SELECT * FROM transactions;
