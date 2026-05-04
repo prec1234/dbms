@@ -1,0 +1,38 @@
+create table students1(
+id int primary key,
+name varchar(50),
+marks int
+);
+
+create table students2(
+id int primary key,
+name varchar(50),
+marks int
+);
+
+insert into students1 values
+(1,'Parth',80),
+(2,'Fazal',75),
+(3,'Samarth',90);
+
+insert into students2 values
+(2,'Fazal',75),
+(3,'Samarth',90),
+(4,'Pawan',85);
+
+update students1 set marks = marks + 5 where id = 1;
+
+delete from students2 where id = 4;
+
+select * from students1
+union
+select * from students2;
+
+select * from students1
+except
+select * from students2;
+
+select * from students1
+union all
+select * from students2;
+
