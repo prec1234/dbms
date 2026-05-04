@@ -1,0 +1,76 @@
+create table employees (
+    emp_id int primary key,
+    emp_name varchar(50),
+    salary int
+);
+
+insert into employees values
+(1,'Sarthak',30000),
+(2,'Fazal',40000),
+(3,'Parth',35000),
+(4,'Samarth',45000);
+
+select * from employees;
+
+delimiter //
+
+create procedure get_total_salary(out total int)
+begin
+    declare done int default 0;
+    declare sal int;
+    declare cur cursor for select salary from employees;
+    declare continue handler for not found set done = 1;
+
+    set total = 0;
+
+    open cur;
+
+    read_loop: loop
+        fetch cur into sal;
+        if done = 1 then
+            leave read_loop;
+        end if;
+        set total = total + sal;
+    end loop;
+
+    close cur;
+end //
+
+delimiter ;
+
+call get_total_salary(@total_salary);
+select @total_salary;
+
+
+
+delimiter //
+
+create function count_high_salary(min_sal int) returns int
+deterministic
+begin
+    declare done int default 0;
+    declare sal int;
+    declare cnt int default 0;
+    declare cur cursor for select salary from employees;
+    declare continue handler for not found set done = 1;
+
+    open cur;
+
+    read_loop: loop
+        fetch cur into sal;
+        if done = 1 then
+            leave read_loop;
+        end if;
+        if sal > min_sal then
+            set cnt = cnt + 1;
+        end if;
+    end loop;
+
+    close cur;
+
+    return cnt;
+end //
+
+delimiter ;
+
+select count_high_salary(35000);
